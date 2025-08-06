@@ -8,6 +8,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+
+app.get('/db-check', (req, res) => {
+  db.query('SELECT 1', (err) => {
+    if (err) {
+      console.error('DB check failed:', err);
+      return res.status(500).send('Database not connected');
+    }
+    res.send('✅ Backend and DB are live!');
+  });
+});
+
+
+
 // MySQL connection using Railway credentials
 const db = mysql.createConnection({
   host: process.env.DB_HOST,       // e.g. mysql.railway.internal
